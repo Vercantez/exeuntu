@@ -159,6 +159,8 @@ test("preserves duplicate model names and marks ChatGPT rewrites by generated mo
   assert.equal(openai.modelAliases?.get("gpt-5.5@managed-sub"), "gpt-5.5");
   assert.equal(openai.chatGPTModelIds?.has("gpt-5.5@chatgpt-sub"), true);
   assert.equal(openai.chatGPTModelIds?.has("gpt-5.5"), false);
+  assert.equal(openai.config.models?.find((model) => model.id === "gpt-5.5@chatgpt-sub")?.reasoning, true);
+  assert.equal(openai.config.models?.find((model) => model.id === "gpt-5.5@managed-sub")?.reasoning, false);
   assert.deepEqual(Array.from(openai.modelIds ?? []).sort(), ["gpt-5.5@chatgpt-sub", "gpt-5.5@managed-sub"]);
 });
 

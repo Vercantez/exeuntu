@@ -368,7 +368,7 @@ function configFromIntegrationModel(
     name: model.name || fallback?.name || modelID,
     api,
     baseUrl,
-    reasoning: fallback?.reasoning ?? false,
+    reasoning: integrationModelNeedsChatGPTPayloadRewrite(model) || (fallback?.reasoning ?? false),
     input: inputModalities(model, fallback),
     contextWindow: model.limits?.context_window ?? fallback?.contextWindow ?? 128000,
     maxTokens: model.limits?.max_output_tokens ?? fallback?.maxTokens ?? 4096,

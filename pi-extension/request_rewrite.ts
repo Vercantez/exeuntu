@@ -51,6 +51,14 @@ function moveInstructionInputToInstructions(payload: Record<string, unknown>): v
   payload.input = input;
 }
 
+function includeEncryptedReasoning(payload: Record<string, unknown>): void {
+  const include = Array.isArray(payload.include) ? payload.include.slice() : [];
+  if (!include.includes("reasoning.encrypted_content")) {
+    include.push("reasoning.encrypted_content");
+  }
+  payload.include = include;
+}
+
 export function rewriteIntegrationProviderPayload(
   payload: unknown,
   opts: IntegrationProviderPayloadRewrite,
@@ -69,6 +77,7 @@ export function rewriteIntegrationProviderPayload(
     delete out.max_tokens;
     delete out.max_completion_tokens;
     out.store = false;
+    includeEncryptedReasoning(out);
     moveInstructionInputToInstructions(out);
     changed = true;
   }

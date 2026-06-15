@@ -36,6 +36,7 @@ test("applies ChatGPT rewrite only for marked generated model ids", () => {
         max_output_tokens: 100,
         max_tokens: 100,
         max_completion_tokens: 100,
+        include: ["file_search_call.results"],
       },
       { modelAliases: aliases, chatGPTModelIds },
     ),
@@ -44,6 +45,7 @@ test("applies ChatGPT rewrite only for marked generated model ids", () => {
       instructions: "base\n\ndeveloper text\n\nsystem text",
       input: [{ role: "user", content: "Say ok." }],
       store: false,
+      include: ["file_search_call.results", "reasoning.encrypted_content"],
     },
   );
 
@@ -69,6 +71,11 @@ test("uses selected model id when pi omits model from the outgoing payload", () 
       },
       { selectedModelID: "gpt-5.5", chatGPTModelIds: new Set(["gpt-5.5"]) },
     ),
-    { input: [{ role: "user", content: "hi" }], instructions: "developer text\n\nsystem text", store: false },
+    {
+      input: [{ role: "user", content: "hi" }],
+      instructions: "developer text\n\nsystem text",
+      store: false,
+      include: ["reasoning.encrypted_content"],
+    },
   );
 });
